@@ -1,0 +1,8 @@
+spring:
+  profiles: native
+  cloud:
+    config:
+      server:
+        native:
+          # write yml file route
+          search-locations: file:///${user.home}/Desktop/server-configs
