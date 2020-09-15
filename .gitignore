@@ -34,3 +34,5 @@ out/
 ## QueryDsl
 /src/main/generated/
 /src/test/java/com/virnect/license/LicenseAllocationTest.java
+
+bin/

@@ -1,8 +1,10 @@
+server:
+  port: 6383
 spring:
-  profiles: native
+  profiles: develop
   cloud:
     config:
       server:
-        native:
+        git:
           # write yml file route
-          search-locations: file:///${user.home}/Desktop/server-configs
+          uri: "https://github.com/virnect-corp/PF-Configurations"

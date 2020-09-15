@@ -1,5 +1,7 @@
+server:
+  port: 6383
 spring:
-  profiles: native
+  profiles: production
   cloud:
     config:
       server:

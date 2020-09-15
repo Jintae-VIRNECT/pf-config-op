@@ -1,5 +1,0 @@
-server:
-  port: 23456
-spring:
-  profiles:
-    active: native
