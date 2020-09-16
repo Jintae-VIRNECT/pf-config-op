@@ -12,13 +12,11 @@ pipeline {
                         branch 'develop'
                     }
                     steps {
-                        catchError() {
-                            sh 'chmod +x ./gradlew'
-                            sh './gradlew clean'
-                            sh './gradlew cleanQuerydslSourcesDir'
-                            sh './gradlew build -x test'
-                            sh 'cp docker/Dockerfile ./'
-                        }
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean'
+                        sh './gradlew build -x test'
+                        sh 'cp docker/Dockerfile ./'
+                        
                     }
                 }
 
@@ -26,14 +24,11 @@ pipeline {
                     when {
                         branch 'staging'
                     }
-                    steps {
-                        catchError() {
-                            sh 'chmod +x ./gradlew'
-                            sh './gradlew clean'
-                            sh './gradlew cleanQuerydslSourcesDir'
-                            sh './gradlew build -x test'
-                            sh 'cp docker/Dockerfile ./'
-                        }
+                    steps {                        
+                        sh 'chmod +x ./gradlew'
+                        sh './gradlew clean'                        
+                        sh './gradlew build -x test'
+                        sh 'cp docker/Dockerfile ./'                        
                     }
                 }
             }   
