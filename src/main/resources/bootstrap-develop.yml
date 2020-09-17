@@ -7,10 +7,11 @@ spring:
       server:
         git:
           # write yml file route
-          uri: "https://github.com/virnect-corp/PF-Configurations"
-          username: "SangGee-VIRNECT"
+          uri: https://github.com/virnect-corp/PF-Configurations
+          skipSslValidation: true
+          username: SangGee-VIRNECT
           #uri: "git@github.com:virnect-corp/PF-Configurations.git"
-          ignore-local-ssh-settings: true
+          ignoreLocalSshSettings: true
           privateKey: |
             -----BEGIN RSA PRIVATE KEY-----
             MIIJKAIBAAKCAgEAxV5C6QHk7XynLUv3s1pl698n9tPrm3UchtPSyNbgkHhdhS5j
