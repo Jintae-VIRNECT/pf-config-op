@@ -9,6 +9,7 @@ spring:
           # write yml file route
           uri: "https://github.com/virnect-corp/PF-Configurations"
           ignore-local-ssh-settings: true
+          user: SangGee-VIRNECT
           #uri: "git@github.com:virnect-corp/PF-Configurations.git"
           privateKey: |
             -----BEGIN OPENSSH PRIVATE KEY-----
