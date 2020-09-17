@@ -7,38 +7,9 @@ spring:
       server:
         git:
           # write yml file route
-          uri: git@github.com:virnect-corp/PF-Configurations.git
-          ignoreLocalSshSettings: true
-          hostKey: publickey
-          hostKeyAlgorithm: ssh-rsa
-          privateKey: |
-            -----BEGIN RSA PRIVATE KEY-----
-            MIIEogIBAAKCAQEAyRmNI9kcbyBWkHD4+Qcp4Pfgxil3F6BCjgtmsZf5BxUfVF3i
-            c2Gb1dtrnHhCbIJ4Bqb6Vnt9nlxME6KHvAXBXnrhBSYnDTaW42kf/Z0UcPlwolhK
-            WeDHANZ/XRGbcvpp2Q9kt/e9b4HuZwbN5WgDLf6OP9JEgeJ0w849CBZ8WYYIsOVQ
-            QY/wLGgGxe+CHQyK0E7ZyuaclqeJIN4fls4QnoZD06jG0zIKYiRDRBwV/SwxFZAk
-            j8eflIFXrZ8H+3D7TZDgzhRkqwz8WbcX0l41Cpcra9vJkD9x98jdhTVX8Sig586R
-            QufWWisDX+2kXjwk+olz6gCLK/hXT+nuBthmHwIDAQABAoIBAGxHJLaTlPrEp7dY
-            DMZRNBxcextXgjcnZA6FVwLyd/R3TAoqDt7fRIAOh8+U9Pbl/OhgCdR843Nb8N51
-            ma4ET0ymzvftxgMYTIAfv0jXxgTaWeofrdDc9WmfFK6w50kuScXEww9HBim/BPVW
-            NZB6w5OFR2RXu+lPXF19c2EickvkqNlZe0Y4lCGhYJ7HXLf8Fb16yYJlossm1GRg
-            7MUthh13z2M/7pl48roApV1cwxNi2g1X0hViWzpzrxF6vpLx59Hgcsp6dh5qgPt+
-            80lUoXRaq9jXdj8VeWzPKm4If4T2u7j8rAXv1gOv7GsuHzqSvom0g7g7TQeSFQbY
-            7M27uQECgYEA+eID2Khq8x53MKfMIx6G6+NAzrzrYhc0tfKfKYtvaNOTvzttcJXD
-            So5+Dr4LRvNQARrhB3vfcGpbnCETD4UkNRMqjLP5h8zZZ3WO7dcZSEzUe9YA8ao4
-            4ldCFvLodIZF01i/j03QdnUYjvRhsJydmJAblwVgmfrIwmgu1jChxp8CgYEAzgXR
-            o9NbqHgh/jp2BXevjFtcNrSUVvAtIaPHUjkdycY3vofxRDkvQP+u4vGF1SrxR/vj
-            plRrsdqbP9E41mN6PA4KvTedmNzGaJYRFos76JsrMJRFZNc8MSrklfDus9vmOsC2
-            /+g46fMll5cx4161J1TWp8LCXUDVairurzt6sIECgYA2LzdMTMDcNRf9WfVfDCiP
-            j/imm7qiy4tnhNPUi2K+JVrdVcKWbjMpwJo/EiCZ4vrPMofnOoop8zYoNdfPPryq
-            MZzBY+lQ9C+USp6SnljiH57Xt4D+5j1tfyRam5OiaNdNS+pF5ca1WRDZNs7UIDHg
-            OidxaP4YhZPw6+x0D5mU2wKBgB6NgFxyQLqILkpccxo2eKMw/UjjmMgX0CmX9zw7
-            Wi6NJcEsudvrOxXBlTb0qGtHdga91THafSogCDv7lBk/IWZ8kp0i/U0pGId0Ec6t
-            EVJaiJoosu3UeYm1GbcexteHeeomoDztPFt9goqrkmtspSLTEw5H9LkNn1iiS0lT
-            YcuBAoGAMEtOFo5jNdLFTCgPAkTESo7VG/GjCqaRWtSvJMr3W7zOy+wBzFcnfB3i
-            NTH6laT3T6hQ9YMaA/x/EZMwjvT1cs+lxC0YeevuYbJ5g4xVWcnp/ndFBC6dpPLO
-            QEcF0PvfEmPaH6xQrWdpfLDdS6WjZDn6h84NmK2NSp3iljPcvw0=
-            -----END RSA PRIVATE KEY-----
+          uri: "https://github.com/virnect-corp/PF-Configurations"
+          username: VIRNECT-Owner
+          password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
 eureka:
   instance:
     prefer-ip-address: true
