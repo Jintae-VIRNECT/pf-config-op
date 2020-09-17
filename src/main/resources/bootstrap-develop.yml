@@ -11,7 +11,7 @@ spring:
           uri: "git@github.com:SangGee-VIRNECT/virnect-corp/PF-Configurations.git"
           ignoreLocalSshSettings: true
           privateKey: |
-          -----BEGIN OPENSSH PRIVATE KEY-----
+            -----BEGIN OPENSSH PRIVATE KEY-----
             b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
             NhAAAAAwEAAQAAAYEAvBqGvJJmzDiQ3Y8NzU28+1foQd6wPpMRN1t5fYi77/xMbngeSWbG
             eE6QQXdLCMqyWVWnWscwEKFB5biud368fY/kmnrbKP9n8I2ZPHKANyHT0VXFQX12/AyJ++
