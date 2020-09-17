@@ -8,6 +8,8 @@ spring:
         git:
           # write yml file route
           uri: "https://github.com/virnect-corp/PF-Configurations"
+          username: esahn-virnect
+          password: 572a1f924de064f78e9961758ed5b5e50861afd4
 eureka:
   instance:
     prefer-ip-address: true
