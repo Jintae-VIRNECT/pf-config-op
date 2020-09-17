@@ -8,36 +8,36 @@ spring:
         git:
           # write yml file route
           #uri: "https://github.com/virnect-corp/PF-Configurations"
-          uri: "git@github.com:SangGee-VIRNECT/PF-Configurations.git"
+          uri: "git@github.com:SangGee-VIRNECT/virnect-corp/PF-Configurations.git"
           ignore-local-ssh-settings: true
           privateKey: |
-            -----BEGIN OPENSSH PRIVATE KEY-----
-            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
-            -----END OPENSSH PRIVATE KEY-----
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpQIBAAKCAQEA0zccovpe8LfePYzod9R7h10lbLFKV14wuQBFv/DXhmKuT+AC
+            K+WLwx5qnBXqnb9gtWNjZcdCtfChK5pF7VGcfgBoCNn/UEk6y/v7nJWLYfIZosy6
+            F/XFEWslJMl9bUfTJ2xwBAla1EO+dsyMUAqhOrHK2hrln0SFaJB5xV1jgLbtcY+r
+            iZB9uTJdSOVv8W+sFL1iK15eENPPa1Zhc0C248MyPMZy6AU6GDzKAOTolBBmudbY
+            gI8MHVdZYewaJESUB7EkFtT5QOwTL+NkWRoiWB/cU8/JIjWqXkbrfZBkxpn5BCfy
+            MfVaV+Nt9t+cWwqZi/Kx2tFlNNMOHk8QetXELwIDAQABAoIBAQCiEFGKxC2A6rQ9
+            6hadi45VKSWEJuzx6LXd3dWnFzdoR+OUKj/ASttYlcgbh72D2Mpto5srBx+q1r3z
+            5OXu2IYJMGqjEBIVGntg9TH0zdIrD0aYYhoQNGZHnTzc4zW4Wjosr8mrbzogUPKd
+            2Ql4iQ95J96MR8MU19C9kM2+oI+uvEi4LNnx8CKRpYh+nK8jie9TCOWgjOJ9wAmC
+            WU0TDgpPxW9nh+D1m08mjNMsifkV3PHpTYROiHtJt11y6m/woTeo9GkKMludov7m
+            uNNpYwosd7J77w1l6amvIhXk6w8KVnJPWo/e1/AkkJ9Wn1myfSBB+L+ht0UzMokl
+            6w9s9R/xAoGBAO3w30gp42UKSCBUACWDztSecSGhXI5KQfXt0dxPvus27Atx/lDO
+            Xl0lCc1xpvxt+f/2acpThGyHPubMJuKSvloRb45BRQatAHS4GAG6JBhX18RH9Nfy
+            8dn93XWISNbRhulNsN3nhiYnXxYAg6sfmTFbccfgFlDhYvjXcDEhoNGDAoGBAOM+
+            98rQ/62XtdJaVJ6PGbcRqQPG89ZCGjKB6Xw/irptn4hjucOliaM4WpMcO6n9EKZe
+            GZuPQswMjpSkP9odZTxsz++/CxY0LZ1MaVBX9hzRytffX50mT0p2SJa9AASG6RGJ
+            S193OZTp5w5nKMw2TqSFX6Raqz36JSdeFX2iTx7lAoGBAIoaIh5qYZdFjnNlDei4
+            RhXWGGeilmvn4bzx2bp7dp5i9EH4WdlgzhhV5QifDIK6+j18Mg7CxruPDA09NNyQ
+            u3bfY9Y3P+8N/pPAPf7SoRyX7532/b9RPNp/pEgRX+V/G0TSWPOS66O9ekz043cx
+            EeM55iJSh+FNz/oKYQ3DLOotAoGBAIyIN1Nc1pEy/gVdSXFZC80UBdLJKag57tuH
+            Ta5B2XgbLQp6qbndWHXw9sp9LkSctLw9+1YhTWzE4zP3M2mevimVHS6llaSglgjt
+            5T8Ddrcx4mCHyih0NZrV9WQK88TY7a+jmVIreBeoYvScRTWs7AuAU7pfPAEy/eEP
+            pPix9H4lAoGAV0KOci9alzSaOo5C6m0qR1dkuNxlpmVP1q1EQN4mSdE8rJUyQb4K
+            ibBAMcKgTlCWqtavR+fAQD++Gv9LPkltGUtyXhiHcFFZ05gn2gMINJlzPpiTQ2d2
+            fqsV3vFNqxmYvTbwdibuRiDKVoeU5e70zGjAJS3CK096ewTLU+4AZc8=
+            -----END RSA PRIVATE KEY-----
 eureka:
   instance:
     prefer-ip-address: true
