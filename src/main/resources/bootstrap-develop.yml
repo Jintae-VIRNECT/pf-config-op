@@ -9,7 +9,7 @@ spring:
           # write yml file route
           uri: git@github.com:virnect-corp/PF-Configurations.git
           ignoreLocalSshSettings: true
-          hostKey: frH8AgpQyy3GxtPOXl6KPzffjPdRFDbJLI7eY/exab8
+          hostKey: publickey
           hostKeyAlgorithm: ssh-rsa
           privateKey: |
             -----BEGIN RSA PRIVATE KEY-----
