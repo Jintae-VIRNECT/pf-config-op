@@ -1,3 +1,5 @@
+server:
+  port: 6383
 spring:
   application:
     name: config-server
