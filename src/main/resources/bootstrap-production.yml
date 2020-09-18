@@ -12,9 +12,3 @@ spring:
           username: VIRNECT-Owner
           password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
           searchPaths: production
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://eureka.virnect.com/eureka
