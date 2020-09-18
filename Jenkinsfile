@@ -71,7 +71,7 @@ pipeline {
                     }
                     steps {
                         sh 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
-                        sh 'docker run -p 6383:6383 --restart=always -e "SPRING_PROFILES_ACTIVE=develop" -e eureka.instance.ip-address=`hostname -I | awk  \'{print $1}\'` -d --name=pf-config pf-config'
+                        sh 'docker run -p 6383:6383 --restart=always -e "SPRING_PROFILES_ACTIVE=develop" -e "spring.cloud.config.uri=192.168.6.3:6383" -e eureka.instance.ip-address=`hostname -I | awk  \'{print $1}\'` -d --name=pf-config pf-config'
                         sh 'docker image prune -a -f'
                     }
                 }
