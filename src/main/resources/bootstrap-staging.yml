@@ -1,6 +1,6 @@
-application:
-  name: config-server
 spring:
+  application:
+    name: config-server
   profiles: staging
   cloud:
     config:

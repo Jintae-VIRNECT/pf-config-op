@@ -1,8 +1,7 @@
-application:
-  name: config-server
 spring:
-  profiles:
-    active: develop
+  application:
+    name: config-server
+  profiles: develop
   cloud:
     config:
       server:
