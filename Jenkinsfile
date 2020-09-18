@@ -71,7 +71,7 @@ pipeline {
                     }
                     steps {
                         sh 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
-                        sh 'docker run -p 6383:6383 --restart=always -e "SPRING_PROFILES_ACTIVE=develop" -d --name=pf-config pf-config'
+                        sh 'docker run -p 6383:6383 --restart=always -d --name=pf-config pf-config'
                         sh 'docker image prune -a -f'
                     }
                 }
@@ -106,7 +106,7 @@ pipeline {
                                                     execCommand: 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                                                 ),
                                                 sshTransfer(
-                                                    execCommand: "docker run -p 6383:6383 --restart=always -e 'SPRING_PROFILES_ACTIVE=staging' -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
+                                                    execCommand: "docker run -p 6383:6383 --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
                                                 ),
                                                 sshTransfer(
                                                     execCommand: 'docker image prune -a -f'
@@ -152,7 +152,7 @@ pipeline {
                                                     execCommand: 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                                                 ),
                                                 sshTransfer(
-                                                    execCommand: "docker run -p 6383:6383 --restart=always -e 'SPRING_PROFILES_ACTIVE=production' -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
+                                                    execCommand: "docker run -p 6383:6383 --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
                                                 ),
                                                 sshTransfer(
                                                     execCommand: 'docker image prune -f'
