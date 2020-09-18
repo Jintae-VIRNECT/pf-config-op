@@ -1,3 +1,5 @@
+application:
+  name: config-server
 server:
   port: 6383
 spring:
@@ -6,10 +8,10 @@ spring:
     config:
       server:
         git:
-          # write yml file route
           uri: "https://github.com/virnect-corp/PF-Configurations"
           username: VIRNECT-Owner
           password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
+          searchPaths: develop
 eureka:
   instance:
     prefer-ip-address: true
