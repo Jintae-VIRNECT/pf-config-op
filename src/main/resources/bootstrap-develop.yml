@@ -6,9 +6,8 @@ spring:
   cloud:
     config:
       server:
-        develop:
-          git:
-            uri: "https://github.com/virnect-corp/PF-Configurations"
-            username: VIRNECT-Owner
-            password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
-            searchPaths: develop
+        git:
+          uri: "https://github.com/virnect-corp/PF-Configurations"
+          username: VIRNECT-Owner
+          password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
+          searchPaths: develop
