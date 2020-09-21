@@ -36,3 +36,4 @@ out/
 /src/test/java/com/virnect/license/LicenseAllocationTest.java
 
 bin/
+releasenote.txt
