@@ -85,6 +85,7 @@ pipeline {
                             script {
                                 docker.withRegistry("https://$aws_ecr_address", 'ecr:ap-northeast-2:aws-ecr-credentials') {
                                     docker.image("pf-config:${GIT_TAG}").push("${GIT_TAG}")
+                                    docker.image("pf-config:${GIT_TAG}").push("latest")
                                 }
                             }
 
@@ -127,13 +128,6 @@ pipeline {
                     }
                     steps {
                         catchError() {
-                            script {
-                                docker.withRegistry("https://$aws_ecr_address", 'ecr:ap-northeast-2:aws-ecr-credentials') {
-                                    docker.image("pf-config:${GIT_TAG}").push("${GIT_TAG}")
-                                    docker.image("pf-config:${GIT_TAG}").push("latest")
-                                }
-                            }
-
                             script {
                                 sshPublisher(
                                     continueOnError: false, failOnError: true,
