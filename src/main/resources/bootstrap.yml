@@ -1,6 +1,8 @@
 server:
   port: 6383
 spring:
+  profiles:
+    active: git, native
   application:
     name: config-server
   cloud:
@@ -12,3 +14,5 @@ spring:
           password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
           searchPaths: develop, staging, production, onpremise
           force-pull: true
+        native:
+          search-locations: ${SEARCH_LOCATIONS}

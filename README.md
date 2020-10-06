@@ -19,20 +19,23 @@ java -> openJDk 1.8 ^
 Gradle -> gradle 5.* (but, gradle bundle is included this project)
 ```
 
+## Clean
+```
+$ ./gradlew clean
+```
+
 ## Build
 
 ```
-$ ./gradlew clean build
+$ ./gradlew build -x test
 ```
 
 ## Running the application
 
 ```shell script
 #Example: java - Dspring.profiles.active=develop -jar PF-Download-1.0.jar
-java -Dspring.profiles.active=${profile env value} -jar ${PF-Download-1.0.jar}
+java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${config file path} -jar ${PF-Download-1.0.jar}
 ```
-
-## Running the application with Docker
 
 #### Build docker image from dockerfile
 
