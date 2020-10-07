@@ -1,12 +1,15 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jre-slim
 
 ENV APP_HOME=/usr/app/
 
 WORKDIR $APP_HOME
 
-COPY ./build/libs/PF-Config-1.0.0.jar ./PF-Config-1.0.0.jar
+ARG buildDir=build/unpack
+
+COPY ${buildDir}/lib BOOT-INF/lib
+COPY ${buildDir}/app .
 
 EXPOSE 6383
 
 ## Command executed when container is start up.
-CMD ["java", "-Xmx400M", "-jar", "PF-Config-1.0.0.jar"]
+CMD ["java", "-Xmx400M", "org.springframework.boot.loader.JarLauncher"]
