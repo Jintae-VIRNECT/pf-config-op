@@ -5,35 +5,6 @@ pipeline {
         REPO_NAME = sh(returnStdout: true, script: 'git config --get remote.origin.url | sed "s/.*:\\/\\/github.com\\///;s/.git$//"').trim()
     }
     stages {
-        stage('Pre-Build') {
-            parallel {
-                stage('Develop Branch') {
-                    when {
-                        branch 'develop'
-                    }
-                    steps {
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean'
-                        sh './gradlew build -x test'
-                        sh 'cp docker/Dockerfile ./'
-                        
-                    }
-                }
-
-                stage('Staging Branch') {
-                    when {
-                        branch 'staging'
-                    }
-                    steps {                        
-                        sh 'chmod +x ./gradlew'
-                        sh './gradlew clean'                        
-                        sh './gradlew build -x test'
-                        sh 'cp docker/Dockerfile ./'                        
-                    }
-                }
-            }   
-        }
-
         stage('Build') {
             parallel {
                 stage('Develop Branch') {
@@ -41,6 +12,7 @@ pipeline {
                         branch 'develop'
                     }
                     steps {
+                        sh 'cp docker/Dockerfile ./'
                         sh 'docker build -t pf-config .'
                     }
                 }
@@ -50,6 +22,7 @@ pipeline {
                         branch 'staging'
                     }
                     steps {
+                        sh 'cp docker/Dockerfile ./'
                         sh 'git checkout ${GIT_TAG}'
                         sh 'docker build -t pf-config:${GIT_TAG} .'
                     }
@@ -72,7 +45,7 @@ pipeline {
                     steps {
                         sh 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                         sh 'docker run -p 6383:6383 -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config pf-config'
-                        sh 'docker image prune -a -f'
+                        sh 'docker image prune -f'
                     }
                 }
 
@@ -110,7 +83,7 @@ pipeline {
                                                     execCommand: "docker run -p 6383:6383 -e VIRNECT_ENV=staging --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
                                                 ),
                                                 sshTransfer(
-                                                    execCommand: 'docker image prune -a -f'
+                                                    execCommand: 'docker image prune -f'
                                                 )
                                             ]
                                         )
