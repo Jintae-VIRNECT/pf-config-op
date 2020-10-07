@@ -8,7 +8,6 @@ COPY settings.gradle .
 COPY src src
 
 RUN chmod +x ./gradlew
-RUN ./gradlew cleanQuerydslSourcesDir
 RUN ./gradlew build -x test
 
 # Runtime Stage
