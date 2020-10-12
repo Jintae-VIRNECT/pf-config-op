@@ -14,5 +14,7 @@ spring:
           password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
           searchPaths: ${VIRNECT_ENV}
           force-pull: true
+          order: 2
         native:
           search-locations: ${SEARCH_LOCATIONS}
+          order: 1
