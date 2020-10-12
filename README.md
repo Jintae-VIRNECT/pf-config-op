@@ -50,7 +50,7 @@ https://github.com/virnect-corp/PF-Configurations
 
 ```shell script
 #Example: java - Dspring.profiles.active=develop -jar PF-Download-1.0.jar
-java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${config file path} -jar ${PF-Download-1.0.jar}
+java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${SEARCH_LOCATIONS} -jar ${PF-Download-1.0.jar}
 ```
 
 #### Run application as docker container via docker image
@@ -58,8 +58,10 @@ java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${config f
 ```shell script
 VIRNECT_ENV = develop, staging, production, onpremise
 
-docker run -p ${HOST_PORT}:6383 -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS=${SEARCH_LOCATIONS} --restart=always --name=pf-config pf-config
+docker run -d --name pf-config -p ${HOST_PORT}:6383 -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS=${SEARCH_LOCATIONS} -v ${CONFIG DIR}:${SEARCH_LOCATIONS} pf-config
 
-ex_
-docker run -d --name pf-config -p 6383:6383  -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS="file:///C:/Users/" pf-config
+ex)
+docker run -d --name pf-config -p 6383:6383 -e VIRNECT_ENV=develop -e "SEARCH_LOCATIONS=/config" -v /usr/var/configs:/config pf-config
+
+
 ```
