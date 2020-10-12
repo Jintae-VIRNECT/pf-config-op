@@ -30,6 +30,22 @@ $ ./gradlew clean
 $ ./gradlew build -x test
 ```
 
+## Description
+```
+Config Server search first by SEARCH_LOCATIONS and then in GITHUB.
+
+SEARCH_LOCATIONS : absoulte file path
+
+Linux
+must be start with 'file://'
+
+Windows
+must be start with 'file:///'
+
+GITHUB
+https://github.com/virnect-corp/PF-Configurations
+```
+
 ## Running the application
 
 ```shell script
@@ -37,14 +53,13 @@ $ ./gradlew build -x test
 java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${config file path} -jar ${PF-Download-1.0.jar}
 ```
 
-#### Build docker image from dockerfile
-
-```shell script
-docker build -t <imageName>:<tag> ${DockerfilePath} .
-```
-
 #### Run application as docker container via docker image
 
 ```shell script
-docker run -d --name '<container_name>' -p <host_port>:<container_port> ${docker image name}
+VIRNECT_ENV = develop, staging, production, onpremise
+
+docker run -p ${HOST_PORT}:6383 -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS=${SEARCH_LOCATIONS} --restart=always --name=pf-config pf-config
+
+ex_
+docker run -d --name pf-config -p 6383:6383  -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS="file:///C:/Users/" pf-config
 ```
