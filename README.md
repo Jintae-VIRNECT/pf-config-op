@@ -32,36 +32,51 @@ $ ./gradlew build -x test
 
 ## Description
 ```
-Config Server search first by SEARCH_LOCATIONS and then in GITHUB.
+Can search File System or GitHub.
 
-SEARCH_LOCATIONS : absoulte file path
+1. File System
+CONFIG_ENV: native
+SEARCH_LOCATIONS: absoulte file path
 
-Linux
-must be start with 'file://'
+2. GitHub
+CONFIG_ENV: git
+VIRNECT_ENV: develop or staging or production or onpremise
 
-Windows
-must be start with 'file:///'
+* GitHub Configurations Repository
+- https://github.com/virnect-corp/PF-Configurations
 
-GITHUB
-https://github.com/virnect-corp/PF-Configurations
+* Environment Variables
+- CONFIG_ENV: git or native (default: git)
+- SEARCH_LOCATIONS: absolute file path (default: /config)
+- VIRNECT_ENV: develop or staging or production or onpremise (default: develop)
 ```
 
 ## Running the application
 
 ```shell script
-#Example: java - Dspring.profiles.active=develop -jar PF-Download-1.0.jar
-java -Dspring.profiles.active=${profile env value} -DSEARCH_LOCATIONS=${SEARCH_LOCATIONS} -jar ${PF-Download-1.0.jar}
+1. File System
+ex)
+java -DCONFIG_ENV=native -DSEARCH_LOCATIONS=file://usr/app/ -jar ${PF-Download-1.0.jar}
+
+Linux
+must be start with 'file://'
+Windows
+must be start with 'file:///'
+
+2. GitHub
+ex)
+java -DCONFIG_ENV=git -DVIRNECT_ENV=production -jar ${PF-Download-1.0.jar}
+
 ```
 
 #### Run application as docker container via docker image
 
 ```shell script
-VIRNECT_ENV = develop, staging, production, onpremise
-
-docker run -d --name pf-config -p ${HOST_PORT}:6383 -e VIRNECT_ENV=${VIRNECT_ENV} -e SEARCH_LOCATIONS=${SEARCH_LOCATIONS} -v ${CONFIG DIR}:${SEARCH_LOCATIONS} pf-config
-
+1. File System
 ex)
-docker run -d --name pf-config -p 6383:6383 -e VIRNECT_ENV=develop -e "SEARCH_LOCATIONS=/config" -v /usr/var/configs:/config pf-config
+docker run -d --name pf-config -p 6383:6383 -e CONFIG_ENV=native -e SEARCH_LOCATIONS=/config -v /config/files/path:/config pf-config
 
-
+2. GitHub
+ex)
+docker run -d --name pf-config -p 6383:6383 -e CONFIG_ENV=git -e VIRNECT_ENV=production pf-config
 ```
