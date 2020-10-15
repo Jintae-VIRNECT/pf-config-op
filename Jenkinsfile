@@ -44,7 +44,7 @@ pipeline {
                     }
                     steps {
                         sh 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
-                        sh 'docker run -p 6383:6383 -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config pf-config'
+                        sh 'docker run -p 6383:6383 -e "CONFIG_ENV=git" -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config pf-config'
                         catchError {
                             sh 'docker image prune -f'
                         }
@@ -82,7 +82,7 @@ pipeline {
                                                 execCommand: 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                                             ),
                                             sshTransfer(
-                                                execCommand: "docker run -p 6383:6383 -e VIRNECT_ENV=staging --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
+                                                execCommand: "docker run -p 6383:6383 -e CONFIG_ENV=git -e VIRNECT_ENV=staging --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
                                             ),
                                             sshTransfer(
                                                 execCommand: 'docker image prune -f'
@@ -119,7 +119,7 @@ pipeline {
                                                 execCommand: 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                                             ),
                                             sshTransfer(
-                                                execCommand: "docker run -p 6383:6383 -e VIRNECT_ENV=production --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
+                                                execCommand: "docker run -p 6383:6383 -e CONFIG_ENV=git -e VIRNECT_ENV=production --restart=always -d --name=pf-config $aws_ecr_address/pf-config:\\${GIT_TAG}"
                                             ),
                                             sshTransfer(
                                                 execCommand: 'docker image prune -f'
