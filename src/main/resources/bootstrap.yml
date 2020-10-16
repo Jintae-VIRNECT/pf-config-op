@@ -6,6 +6,16 @@ spring:
     active: ${CONFIG_ENV:git}
   application:
     name: config-server
+---
+spring:
+  profiles: native
+  cloud:
+    config:      
+      native:
+        search-locations: ${SEARCH_LOCATIONS:/config}
+---
+spring:
+  profiles: git  
   cloud:
     config:
       server:
@@ -15,5 +25,3 @@ spring:
           password: f4f37c34c276080e0b3832792c1ceb0d2ac9f3c5
           searchPaths: ${VIRNECT_ENV:develop}
           force-pull: true
-        native:
-          search-locations: ${SEARCH_LOCATIONS:/config}

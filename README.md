@@ -40,15 +40,16 @@ SEARCH_LOCATIONS: absoulte file path
 
 2. GitHub
 CONFIG_ENV: git
+SEARCH_LOCATIONS: git URL
 VIRNECT_ENV: develop or staging or production or onpremise
-
-* GitHub Configurations Repository
-- https://github.com/virnect-corp/PF-Configurations
 
 * Environment Variables
 - CONFIG_ENV: git or native (default: git)
-- SEARCH_LOCATIONS: absolute file path (default: /config)
+- SEARCH_LOCATIONS: absolute file path or git URL (default: https://github.com/virnect-corp/PF-Configurations)
 - VIRNECT_ENV: develop or staging or production or onpremise (default: develop)
+
+* GitHub Configurations Repository
+- https://github.com/virnect-corp/PF-Configurations
 ```
 
 ## Running the application
@@ -56,7 +57,7 @@ VIRNECT_ENV: develop or staging or production or onpremise
 ```shell script
 1. File System
 ex)
-java -DCONFIG_ENV=native -DSEARCH_LOCATIONS=file://usr/app/ -jar ${PF-Download-1.0.jar}
+java -DCONFIG_ENV=native -DSEARCH_LOCATIONS=file://file/route -jar ${PF-Download-1.0.jar}
 
 Linux
 must be start with 'file://'
@@ -74,7 +75,7 @@ java -DCONFIG_ENV=git -DVIRNECT_ENV=production -jar ${PF-Download-1.0.jar}
 ```shell script
 1. File System
 ex)
-docker run -d --name pf-config -p 6383:6383 -e CONFIG_ENV=native -e SEARCH_LOCATIONS=/config -v /config/files/path:/config pf-config
+docker run -d --name pf-config -p 6383:6383 -e CONFIG_ENV=native -e SEARCH_LOCATIONS=/usr/app/config -v /config/files/path:/usr/app/config pf-config
 
 2. GitHub
 ex)
