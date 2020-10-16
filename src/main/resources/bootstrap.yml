@@ -10,9 +10,10 @@ spring:
 spring:
   profiles: native
   cloud:
-    config:      
-      native:
-        search-locations: ${SEARCH_LOCATIONS:/config}
+    config:
+      server:        
+        native:
+          search-locations: file:/config
 ---
 spring:
   profiles: git  

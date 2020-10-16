@@ -34,8 +34,7 @@ public class ConfigApplication {
 			+ "   Platform Config Server is ready!\n"
 			+ "   ---------------------------\n" + "\n"
 			+ "   * CONFIG_ENV: [" + System.getenv("CONFIG_ENV") + "]\n" + "\n"
-			+ "   * VIRNECT_ENV: [" + System.getenv("VIRNECT_ENV") + "]\n" + "\n"
-			+ "   * SEARCH_LOCATIONS: [" + System.getenv("SEARCH_LOCATIONS") + "]\n" + "\n"
+			+ "   * VIRNECT_ENV: [" + System.getenv("VIRNECT_ENV") + "]\n" + "\n"			
 			+ "----------------------------------------------------\n";
 
 		log.info(msg);
