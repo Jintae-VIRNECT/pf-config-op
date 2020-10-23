@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id "io.franzbecker.gradle-lombok" version "3.3.0"
 	id 'java'
 }
 
@@ -17,7 +18,12 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.cloud:spring-cloud-config-server'	
+	implementation 'org.springframework.cloud:spring-cloud-config-server'
+	compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompile 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

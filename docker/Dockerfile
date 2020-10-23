@@ -20,5 +20,7 @@ ARG buildDir=build/unpack
 COPY --from=builder ${buildDir}/lib BOOT-INF/lib
 COPY --from=builder ${buildDir}/app .
 
+VOLUME /config
+
 EXPOSE 6383
 CMD ["java", "-XX:+UseG1GC", "-Xmx400M", "org.springframework.boot.loader.JarLauncher"]
