@@ -28,6 +28,11 @@ pipeline {
                     }
                 }
             }
+            post {
+                always {
+                    jiraSendBuildInfo site: 'virtualconnection.atlassian.net'
+                }
+            }
         }
 
         stage('Test') {
@@ -49,6 +54,11 @@ pipeline {
                             sh 'docker image prune -f'
                         }
                     }
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'local-server', environmentName: 'local-server', environmentType: 'development'
+                        }
+                    }                    
                 }
 
                 stage('Staging Branch') {
@@ -101,6 +111,11 @@ pipeline {
                             sh "curl -d '$payload' -X POST 'https://api.github.com/repos/$REPO_NAME/releases?access_token=$securitykey'"
                         }
                     }
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-stg', environmentName: 'aws-stg', environmentType: 'testing'
+                        }
+                    }                    
                 }
 
 
@@ -151,6 +166,11 @@ pipeline {
                             sh "curl -d '$payload' -X PATCH 'https://api.github.com/repos/$REPO_NAME/releases/$RELEASE_ID?access_token=$securitykey'"
                         }
                     }
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-prod', environmentName: 'aws-prod', environmentType: 'production'        
+                        }
+                    }                    
                 }
             }
         }
@@ -158,7 +178,7 @@ pipeline {
 
     post {
         always {
-            emailext(subject: '$DEFAULT_SUBJECT', body: '$DEFAULT_CONTENT', attachLog: true, compressLog: true, to: '$platform')
+            emailext(subject: '$DEFAULT_SUBJECT', body: '$DEFAULT_CONTENT', attachLog: true, compressLog: true, to: '$platform')            
             office365ConnectorSend 'https://outlook.office.com/webhook/41e17451-4a57-4a25-b280-60d2d81e3dc9@d70d3a32-a4b8-4ac8-93aa-8f353de411ef/JenkinsCI/e79d56c16a7944329557e6cb29184b32/d0ac2f62-c503-4802-8bf9-f6368d7f39f8'
         }
     }
