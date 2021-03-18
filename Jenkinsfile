@@ -56,7 +56,7 @@ pipeline {
                     }
                     post {
                         always {
-                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'local-server', environmentName: 'local-server', environmentType: 'development'
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'develop-server', environmentName: 'develop-server', environmentType: 'development'
                         }
                     }                    
                 }
@@ -113,7 +113,7 @@ pipeline {
                     }
                     post {
                         always {
-                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-stg', environmentName: 'aws-stg', environmentType: 'testing'
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-staging-server', environmentName: 'aws-staging-server', environmentType: 'testing'
                         }
                     }                    
                 }
@@ -168,7 +168,7 @@ pipeline {
                     }
                     post {
                         always {
-                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-prod', environmentName: 'aws-prod', environmentType: 'production'        
+                            jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'aws-prod-server', environmentName: 'aws-prod-server', environmentType: 'production'        
                         }
                     }                    
                 }
