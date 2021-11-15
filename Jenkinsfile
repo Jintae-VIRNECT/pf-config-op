@@ -61,7 +61,7 @@ pipeline {
                             sh 'docker image prune -f'
                         }
                     
-                    }
+                    
                     post {
                         always {
                             jiraSendDeploymentInfo site: 'virtualconnection.atlassian.net', environmentId: 'develop-server', environmentName: 'develop-server', environmentType: 'development'
