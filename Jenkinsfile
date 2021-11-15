@@ -52,8 +52,7 @@ pipeline {
                         sh 'docker run -p 6383:6383 -e "CONFIG_ENV=git" -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config pf-config'
                         sh 'docker tag pf-login $NEXUS_REGISTRY/pf-config'
                         sh 'docker push $NEXUS_REGISTRY/pf-config'
-                        sh 'docker login ${NEXUS_REGISTRY}'
-                        sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker pull $NEXUS_REGISTRY/pf-config", failOnError: true)
+                        sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker login ${NEXUS_REGISTRY} && docker pull $NEXUS_REGISTRY/pf-config", failOnError: true)
                         sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker stop pf-config && docker rm pf-config || true", failOnError: true)
                         sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker run -p 6383:6383 -e 'CONFIG_ENV=git' -e 'VIRNECT_ENV=develop,onpremise' --restart=always -d --name=pf-config $NEXUS_REGISTRY/pf-config", failOnError: true)
                         catchError {
