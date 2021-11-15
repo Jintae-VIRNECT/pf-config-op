@@ -50,9 +50,17 @@ pipeline {
                     steps {
                         sh 'count=`docker ps -a | grep pf-config | wc -l`; if [ ${count} -gt 0 ]; then echo "Running STOP&DELETE"; docker stop pf-config && docker rm pf-config; else echo "Not Running STOP&DELETE"; fi;'
                         sh 'docker run -p 6383:6383 -e "CONFIG_ENV=git" -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config pf-config'
+                        
+                        sh 'docker tag pf-login $NEXUS_REGISTRY/pf-config'
+                        sh 'docker push $NEXUS_REGISTRY/pf-config'
+                        sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker pull $NEXUS_REGISTRY/pf-config", failOnError: true)
+                        sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker stop pf-config && docker rm pf-config || true", failOnError: true)
+                        sshCommand(remote: [allowAnyHosts: true, name:"PF-Renewal", host:"192.168.6.7", user:"vntuser", password:"virnect0!"], command: "docker run -p 6383:6383 -e "CONFIG_ENV=git" -e "VIRNECT_ENV=develop,onpremise" --restart=always -d --name=pf-config $NEXUS_REGISTRY/pf-config", failOnError: true)
+                    }
                         catchError {
                             sh 'docker image prune -f'
                         }
+                    
                     }
                     post {
                         always {
