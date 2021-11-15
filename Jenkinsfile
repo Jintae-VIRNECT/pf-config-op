@@ -159,7 +159,7 @@ pipeline {
                                     )
                                 ]
                             )
-                        
+                        }
 
                         script {
                             def GIT_RELEASE_INFO = sh(returnStdout: true, script: 'curl -X GET https:/api.github.com/repos/$REPO_NAME/releases/tags/$GIT_TAG?access_token=$securitykey')
@@ -182,11 +182,11 @@ pipeline {
                 }
             }
         }
-    }
+    
 
     post {
         always {
             office365ConnectorSend webhookUrl:'https://virtualconnect.webhook.office.com/webhookb2/9b126938-3d1f-4493-98bb-33f25285af65@d70d3a32-a4b8-4ac8-93aa-8f353de411ef/IncomingWebhook/72710a45ecce45e4bf72663717e7f323/d5a8ebb7-7fe2-4cd2-817c-1884fd25e7b0'
         }
     }
-}
+
