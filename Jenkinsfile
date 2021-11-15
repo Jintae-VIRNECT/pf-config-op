@@ -159,7 +159,7 @@ pipeline {
                                     )
                                 ]
                             )
-                        }
+                        
 
                         script {
                             def GIT_RELEASE_INFO = sh(returnStdout: true, script: 'curl -X GET https:/api.github.com/repos/$REPO_NAME/releases/tags/$GIT_TAG?access_token=$securitykey')
