@@ -26,10 +26,4 @@ spring:
           force-pull: true
           ignoreLocalSshSettings: true
           privateKey: |
-            -----BEGIN EC PRIVATE KEY-----
-            MIHcAgEBBEIBvOCnr2/YKI43GAeFby5yQbOZKb8g1EUqzN/kl54nu8NHawirIVkC
-            HxuSWkSZRauN6EXYxQY4WjmR6HhbfRSwqEigBwYFK4EEACOhgYkDgYYABAHQ1noW
-            zXZidzryA6IS9t0t3oVYHtBKV3phqz/7x057qbrrrPVBSTmAtT1XqPnphR+yPMEc
-            z4XvGOJSWUC4XdSJ5ADoi77+wIXa7zbSBOQIugkLl7y7/4pgFcfLyYoiDRrG9iyZ
-            sjYKXUoHQBazSWU7/c1KOWDQ9mA0FCqP/5VXLFiG6g==
-            -----END EC PRIVATE KEY-----
+            ${GITHUB_CONFIGURATIONS_PRIVATE_KEY}

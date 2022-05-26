@@ -155,7 +155,10 @@ pipeline {
                     steps {
                         // development
                         script { // vntuser credentials
-                            withCredentials([usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([
+                                usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
+                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
+                                ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
                                 remote.host = "${DEV_BUILD_SERVER}" // deploy to build server
@@ -171,6 +174,7 @@ pipeline {
                                     docker run --restart=on-failure:10 \
                                         -d \
                                         -e VIRNECT_ENV=develop,freezing,onpremise \
+                                        -e GITHUB_CONFIGURATIONS_PRIVATE_KEY=${KEYFILE} \
                                         -e CONFIG_SERVER=${DEV_CONFIG_SERVER} \
                                         -p ${PORT}:${PORT} \
                                         --name=${REPO_NAME} ${NEXUS_REGISTRY}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
@@ -190,7 +194,10 @@ pipeline {
                     when { branch 'freezing'; }
                     steps {
                         script { // vntuser credentials
-                            withCredentials([usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                            withCredentials([
+                                usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
+                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
+                                ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
                                 remote.host = "${DEV_BUILD_SERVER}" // deploy to build server
@@ -206,6 +213,7 @@ pipeline {
                                     docker run --restart=on-failure:10 \
                                         -d \
                                         -e VIRNECT_ENV=freezing \
+                                        -e GITHUB_CONFIGURATIONS_PRIVATE_KEY=${KEYFILE} \
                                         -e CONFIG_SERVER=${DEV_CONFIG_SERVER} \
                                         -p ${PORT}:${PORT} \
                                         --name=${REPO_NAME} ${NEXUS_REGISTRY}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
