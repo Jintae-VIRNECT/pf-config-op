@@ -157,7 +157,7 @@ pipeline {
                         script { // vntuser credentials
                             withCredentials([
                                 usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
-                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
+                                string(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
                                 ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
