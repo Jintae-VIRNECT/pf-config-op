@@ -157,7 +157,7 @@ pipeline {
                         script { // vntuser credentials
                             withCredentials([
                                 usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
-                                string(credentialsId: 'github_configurations_repository_private_key', variable: 'KEYFILE')
+                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
                                 ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
@@ -174,7 +174,7 @@ pipeline {
                                     docker run --restart=on-failure:10 \
                                         -d \
                                         -e VIRNECT_ENV=develop,freezing,onpremise \
-                                        -e GITHUB_CONFIGURATIONS_PRIVATE_KEY=${KEYFILE} \
+                                        -e GITHUB_CONFIGURATIONS_PRIVATE_KEY='$KEYFILE' \
                                         -e CONFIG_SERVER=${DEV_CONFIG_SERVER} \
                                         -p ${PORT}:${PORT} \
                                         --name=${REPO_NAME} ${NEXUS_REGISTRY}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
@@ -196,7 +196,7 @@ pipeline {
                         script { // vntuser credentials
                             withCredentials([
                                 usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
-                                string(credentialsId: 'github_configurations_repository_private_key', variable: 'KEYFILE')
+                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
                                 ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
