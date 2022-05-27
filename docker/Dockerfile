@@ -26,7 +26,7 @@ WORKDIR $APP_HOME
 
 # load dependencies from cache
 COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
-
+COPY gradle.properties /home/gradle/.gradle
 # copy all source
 COPY . .
 
