@@ -31,7 +31,7 @@ COPY gradle.properties /home/gradle/.gradle
 COPY . .
 
 # build soruce file with dependnecies
-RUN gradle clean build -x test --console=plain
+RUN gradle clean build -x test --console=plain -DXms512m -DXmx4096m
 RUN java -Djarmode=layertools -jar build/libs/*.jar extract
 
 ### Runtime Stage
