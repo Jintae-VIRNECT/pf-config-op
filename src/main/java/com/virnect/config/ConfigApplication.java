@@ -10,9 +10,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @EnableConfigServer
 @SpringBootApplication
 public class ConfigApplication {
@@ -37,7 +34,7 @@ public class ConfigApplication {
 			+ "   * VIRNECT_ENV: [" + System.getenv("VIRNECT_ENV") + "]\n" + "\n"			
 			+ "----------------------------------------------------\n";
 
-		log.info(msg);
+		System.out.println(msg);
 	}
 
 }
