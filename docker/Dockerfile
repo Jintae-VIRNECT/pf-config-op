@@ -1,5 +1,5 @@
 # Build Stage
-FROM openjdk:8 AS builder
+FROM gradle:jdk11 AS builder
 
 COPY gradlew .
 COPY gradle gradle
@@ -11,7 +11,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build -x test
 
 # Runtime Stage
-FROM openjdk:8-jre-alpine
+FROM gradle:jdk11
 
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
