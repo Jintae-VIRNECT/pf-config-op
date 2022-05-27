@@ -1,5 +1,5 @@
 ### Cache Stage
-FROM gradle:jdk11 AS cache
+FROM gradle:7.4.0-jdk11 AS cache
 
 # set workdir
 ENV APP_HOME=/usr/app/
@@ -18,7 +18,7 @@ RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 
 
 ### Build Stage
-FROM gradle:jdk11 AS builder
+FROM gradle:7.4.0-jdk11 AS builder
 
 # set workdir
 ENV APP_HOME=/usr/app/
