@@ -11,7 +11,7 @@ ENV GRADLE_USER_HOME /home/gradle/cache_home
 
 # only copy dependency-related files
 COPY build.gradle settings.gradle ./
-
+COPY gradle.properties /home/gradle/.gradle
 # Only download dependencies
 # Eat the expected build failure since no source code has been copied yet
 RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
