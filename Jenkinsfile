@@ -175,7 +175,6 @@ pipeline {
                                         -d \
                                         -e VIRNECT_ENV=develop,freezing,onpremise \
                                         -e ID_ECDSA_GITHUB_CONFIGURATIONS_PASSPHRASE='$PASSPHRASE' \
-                                        -e CONFIG_SERVER=${DEV_CONFIG_SERVER} \
                                         -p ${PORT}:${PORT} \
                                         --name=${REPO_NAME} ${NEXUS_REGISTRY}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
                                 """
@@ -196,7 +195,7 @@ pipeline {
                         script { // vntuser credentials
                             withCredentials([
                                 usernamePassword(credentialsId: 'vntuser_credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME'),
-                                sshUserPrivateKey(credentialsId: 'github_configurations_repository_private_key', keyFileVariable: 'KEYFILE')
+                                string(credentialsId: 'id_ecdsa_github_configurations_passphrase', variable: 'PASSPHRASE')
                                 ]) {
                                 def remote = [:]
                                 remote.name = "${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}" 
@@ -213,8 +212,7 @@ pipeline {
                                     docker run --restart=on-failure:10 \
                                         -d \
                                         -e VIRNECT_ENV=freezing \
-                                        -e GITHUB_CONFIGURATIONS_PRIVATE_KEY=${KEYFILE} \
-                                        -e CONFIG_SERVER=${DEV_CONFIG_SERVER} \
+                                        -e ID_ECDSA_GITHUB_CONFIGURATIONS_PASSPHRASE='$PASSPHRASE' \
                                         -p ${PORT}:${PORT} \
                                         --name=${REPO_NAME} ${NEXUS_REGISTRY}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
                                 """
@@ -234,39 +232,41 @@ pipeline {
                     steps {
                         // staging
                         script {
-                            sshPublisher(
-                                continueOnError: false, failOnError: true,
-                                publishers: [
-                                    sshPublisherDesc(
-                                        configName: 'aws-bastion-deploy-qa',
-                                        verbose: true,
-                                        transfers: [
-                                            sshTransfer(
-                                                execCommand: 'aws ecr get-login --region ap-northeast-2 --no-include-email | bash'
-                                            ),
-                                            sshTransfer(
-                                                execCommand: "docker pull ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}"
-                                            ),
-                                            sshTransfer(
-                                                execCommand: """
-                                                    echo '${REPO_NAME} Container stop and delete'
-                                                    docker stop ${REPO_NAME} && docker rm ${REPO_NAME} 
+                            withCredentials([
+                                string(credentialsId: 'id_ecdsa_github_configurations_passphrase', variable: 'PASSPHRASE')
+                            ]) {
+                                sshPublisher(
+                                    continueOnError: false, failOnError: true,
+                                    publishers: [
+                                        sshPublisherDesc(
+                                            configName: 'aws-bastion-deploy-qa',
+                                            verbose: true,
+                                            transfers: [
+                                                sshTransfer(
+                                                    execCommand: 'aws ecr get-login --region ap-northeast-2 --no-include-email | bash'
+                                                ),
+                                                sshTransfer(
+                                                    execCommand: "docker pull ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}"
+                                                ),
+                                                sshTransfer(
+                                                    execCommand: """
+                                                        echo '${REPO_NAME} Container stop and delete'
+                                                        docker stop ${REPO_NAME} && docker rm ${REPO_NAME} 
 
-                                                    echo '${REPO_NAME} New Container start'
-                                                    docker run --restart=on-failure:10 \
-                                                            -d \
-                                                            -e VIRNECT_ENV=staging \
-                                                            -e CONFIG_SERVER=${STG_CONFIG_SERVER} \
-                                                            -e WRITE_YOUR=ENVIRONMENT_VARIABLE_HERE \
-                                                            -e eureka.instance.ip-address=`hostname -I | awk  \'{print \$1}\'` \
-                                                            -p ${PORT}:${PORT} \
-                                                            --name=${REPO_NAME} ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
-                                                """
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
+                                                        echo '${REPO_NAME} New Container start'
+                                                        docker run --restart=on-failure:10 \
+                                                                -d \
+                                                                -e VIRNECT_ENV=staging \
+                                                                -e ID_ECDSA_GITHUB_CONFIGURATIONS_PASSPHRASE='$PASSPHRASE' \
+                                                                -p ${PORT}:${PORT} \
+                                                                --name=${REPO_NAME} ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}-${BRANCH_NAME}-${BUILD_NUMBER}
+                                                    """
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                )
+                            }
                         }
 
                         post {
@@ -281,38 +281,41 @@ pipeline {
                     when { branch 'master'; }
                     steps {
                         script {
-                            sshPublisher(
-                                continueOnError: false, failOnError: true,
-                                publishers: [
-                                    sshPublisherDesc(
-                                        configName: 'aws-bastion-deploy-prod',
-                                        verbose: true,
-                                        transfers: [
-                                            sshTransfer(
-                                                execCommand: 'aws ecr get-login --region ap-northeast-2 --no-include-email | bash'
-                                            ),
-                                            sshTransfer(
-                                                execCommand: "docker pull ${aws_ecr_address}/${REPO_NAME}:\\${NEXT_VERSION}"
-                                            ),
-                                            sshTransfer(
-                                                execCommand: """
-                                                    echo '${REPO_NAME} Container stop and delete'
-                                                    docker stop ${REPO_NAME} && docker rm ${REPO_NAME} 
+                            withCredentials([
+                                string(credentialsId: 'id_ecdsa_github_configurations_passphrase', variable: 'PASSPHRASE')
+                            ]) {
+                                sshPublisher(
+                                    continueOnError: false, failOnError: true,
+                                    publishers: [
+                                        sshPublisherDesc(
+                                            configName: 'aws-bastion-deploy-prod',
+                                            verbose: true,
+                                            transfers: [
+                                                sshTransfer(
+                                                    execCommand: 'aws ecr get-login --region ap-northeast-2 --no-include-email | bash'
+                                                ),
+                                                sshTransfer(
+                                                    execCommand: "docker pull ${aws_ecr_address}/${REPO_NAME}:\\${NEXT_VERSION}"
+                                                ),
+                                                sshTransfer(
+                                                    execCommand: """
+                                                        echo '${REPO_NAME} Container stop and delete'
+                                                        docker stop ${REPO_NAME} && docker rm ${REPO_NAME} 
 
-                                                    echo '${REPO_NAME} New Container start'
-                                                    docker run --restart=on-failure:10 \
-                                                        -d \
-                                                        -e VIRNECT_ENV=production \
-                                                        -e CONFIG_SERVER=${PROD_CONFIG_SERVER} \
-                                                        -e WRITE_YOUR=ENVIRONMENT_VARIABLE_HERE \
-                                                        -p ${PORT}:${PORT} \
-                                                        --name=${REPO_NAME} ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}
-                                                """
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
+                                                        echo '${REPO_NAME} New Container start'
+                                                        docker run --restart=on-failure:10 \
+                                                            -d \
+                                                            -e VIRNECT_ENV=production \
+                                                            -e ID_ECDSA_GITHUB_CONFIGURATIONS_PASSPHRASE='$PASSPHRASE' \
+                                                            -p ${PORT}:${PORT} \
+                                                            --name=${REPO_NAME} ${aws_ecr_address}/${REPO_NAME}:${NEXT_VERSION}
+                                                    """
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                )
+                            }
                         }
 
                         post {
