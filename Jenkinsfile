@@ -218,11 +218,11 @@ pipeline {
                                 """
                             }
                         }
+                    }
 
-                        post {
-                            always {
-                                jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'harington-freezing', environmentName: 'harington-freezing', environmentType: 'development'
-                            }
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'harington-freezing', environmentName: 'harington-freezing', environmentType: 'development'
                         }
                     }
                 }
@@ -268,11 +268,11 @@ pipeline {
                                 )
                             }
                         }
+                    }
 
-                        post {
-                            always {
-                                jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'aws-stging', environmentName: 'aws-stging', environmentType: 'staging'
-                            }
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'aws-stging', environmentName: 'aws-stging', environmentType: 'staging'
                         }
                     }
                 }
@@ -317,11 +317,11 @@ pipeline {
                                 )
                             }
                         }
-
-                        post {
-                            always {
-                                jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'aws-production', environmentName: 'aws-production', environmentType: 'production'
-                            }
+                    }
+                    
+                    post {
+                        always {
+                            jiraSendDeploymentInfo site: "${JIRA_URL}", environmentId: 'aws-production', environmentName: 'aws-production', environmentType: 'production'
                         }
                     }
                 }
