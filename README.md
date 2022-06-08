@@ -39,11 +39,11 @@ CONFIG_ENV: native
 
 2. GitHub
 CONFIG_ENV: git
-VIRNECT_ENV: develop or staging or production or onpremise
+VIRNECT_ENV: develop or staging or production or onpremise or freezing
 
 * Environment Variables
 - CONFIG_ENV: git or native (default: git)
-- VIRNECT_ENV: develop or staging or production or onpremise (default: develop)
+- VIRNECT_ENV: develop or staging or production or onpremise or freezing (default: develop)
 
 * GitHub Configurations Repository
 - https://github.com/virnect-corp/PF-Configurations
@@ -51,7 +51,7 @@ VIRNECT_ENV: develop or staging or production or onpremise
 
 #### Run application as docker container via docker image
 
-```shell script
+```shell scripts
 1. File System
 ex)
 docker run -d --name pf-config -p 6383:6383 -e CONFIG_ENV=native -v /config/files/path:/config pf-config
