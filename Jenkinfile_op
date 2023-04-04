@@ -1,0 +1,124 @@
+pipeline {
+    agent any
+
+
+    environment {
+        BRANCH = "${BRANCH_NAME.toLowerCase().trim().split("/")[0]}"
+        JOB = "${JOB_NAME.split("/")[0].toLowerCase().trim()}"
+        SLACK_CHANNEL = '#project-dev-jenkins'
+        AUTHOR = sh(returnStdout: true, script : 'git --no-pager show -s --pretty="format: %an"')
+        DIR_PATH = "/data/onpremise/2.8/minio/onpremise-tar-files"
+        TAG_EXIST=sh(script: "git tag | grep ${BRANCH}" , returnStatus: true)
+    }
+    stages {
+        stage ('start') {
+            steps {
+                slackSend (channel: env.SLACK_CHANNEL, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME}[${env.BUILD_NUMBER}]' \n AUTHOR: ${env.AUTHOR} \n Build URL: ${env.BUILD_URL}")
+            }
+        }
+
+        stage('RELEASE'){
+            when{
+                expression {
+                    return TAG_EXIST == "0"
+                }
+            }
+            environment {
+                STAGE_VALUE = "RELEASE"
+                TAG = "${env.BRANCH_NAME.toLowerCase().split("/")[1]}"
+                DOCKER_SAVE_DIR_EXIST =sh(script: "find ${DIR_PATH}/${STAGE_VALUE}/${JOB}/${BRANCH}/${TAG}/", returnStatus: true)
+            }
+            steps {
+                sh 'docker build --no-cache -t ${BRANCH}:${JOB} -f docker/Dockerfile .'
+                sh 'docker tag ${BRANCH}:${JOB} ${BRANCH}'
+                sh 'docker rmi ${BRANCH}:${JOB}'
+                script{
+                    if (env.DOCKER_SAVE_DIR_EXIST == '0'){
+                        sh 'docker save -o ${DIR_PATH}/${STAGE_VALUE}/${JOB}/${BRANCH}/${TAG}/${BRANCH}.tar ${BRANCH}:latest'
+                        echo "docker save success. "
+                    }else{
+                        echo " 디렉토리를 찾을 수 없습니다. "
+                        sh 'mkdir -p ${DIR_PATH}/${STAGE_VALUE}/${JOB}/${BRANCH}/${TAG}/'
+                        sh 'docker save -o ${DIR_PATH}/${STAGE_VALUE}/${JOB}/${BRANCH}/${TAG}/${BRANCH}.tar ${BRANCH}:latest'
+                        echo "docker save success. "
+                    }
+                    sh 'docker rmi ${BRANCH}:latest'
+                }
+            }
+            post {
+                success{
+                    slackSend (channel: env.SLACK_CHANNEL, color: '#00FF00', message: "Docker Build Successful \n tar -  ${env.JENKINS_URL}/${env.STAGE_VALUE}/${env.JOB}/${env.BRANCH}/${env.TAG}/${env.BRANCH}.tar" )
+                }
+            }
+        }
+
+        stage('default build'){
+            when{
+                expression {
+                    return TAG_EXIST != "0"
+                }
+            }
+            steps {
+                script{
+                    APP = docker.build("""${JOB}/${BRANCH}""", "-f ./docker/Dockerfile .")
+                }
+            }
+        }
+        stage ('save image to harbor') {
+            when{
+                expression {
+                    return TAG_EXIST != "0"
+                }
+            }
+            steps {
+                script {
+                    docker.withRegistry("${HARBOR_URL}", "harbor") {
+                        APP.push("${env.BUILD_NUMBER}")
+                    }
+                    sh "docker rmi ${JOB}/${BRANCH}"
+                }
+            }
+        }
+
+        stage('Deploy'){
+            when{
+                expression {
+                    return TAG_EXIST != "0"
+                }
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'vnt_user', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        def remote = [:]
+                        remote.name = "${JOB}-${BRANCH_NAME}"
+                        remote.host = "${DEV_SERVER}"
+                        remote.allowAnyHosts = true
+                        remote.port= 22
+                        remote.user = USERNAME
+                        remote.password = PASSWORD
+                        remote.failOnError = true
+
+                        sshCommand remote: remote, command: """
+                            docker login ${HARBOR_REGISTRY}
+                            docker pull ${HARBOR_REGISTRY}/${JOB}/${BRANCH}:${BUILD_NUMBER}
+                            docker stop ${BRANCH} && docker rm ${BRANCH} &&docker rmi ${BRANCH} || true
+                            docker image tag ${HARBOR_REGISTRY}/${JOB}/${BRANCH}:${BUILD_NUMBER} ${BRANCH}
+                            docker rmi ${HARBOR_REGISTRY}/${JOB}/${BRANCH}:${BUILD_NUMBER}
+                            cd /usr/local/virnect
+                            docker-compose up -d ${BRANCH}
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+            success {
+                slackSend (channel: env.SLACK_CHANNEL, color: '#00FF00', message: "SUCCESSFUL: ${env.JOB}-${env.BRANCH_NAME} [${env.BUILD_NUMBER}]\n AUTHOR: ${env.AUTHOR}  \n Build URL: - ${env.BUILD_URL} " )
+            }
+            failure {
+                slackSend (channel: env.SLACK_CHANNEL, color: '#FF0000', message: "FAILED: Job  ${env.JOB}-${env.BRANCH_NAME} [${env.BUILD_NUMBER}]\n AUTHOR: ${env.AUTHOR} \n Build URL: (${env.BUILD_URL})")
+            }
+    }
+}
