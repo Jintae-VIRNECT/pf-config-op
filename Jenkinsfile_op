@@ -12,9 +12,7 @@ pipeline {
     }
     stages {
         stage ('start') {
-            steps {
-                slackSend (channel: env.SLACK_CHANNEL, color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME}[${env.BUILD_NUMBER}]' \n AUTHOR: ${env.AUTHOR} \n Build URL: ${env.BUILD_URL}")
-            }
+    
         }
 
         stage('RELEASE'){
@@ -46,9 +44,7 @@ pipeline {
                 }
             }
             post {
-                success{
-                    slackSend (channel: env.SLACK_CHANNEL, color: '#00FF00', message: "Docker Build Successful \n tar -  ${env.JENKINS_URL}/${env.STAGE_VALUE}/${env.JOB}/${env.BRANCH}/${env.TAG}/${env.BRANCH}.tar" )
-                }
+
             }
         }
 
@@ -111,14 +107,5 @@ pipeline {
                 }
             }
         }
-    }
-
-    post {
-            success {
-                slackSend (channel: env.SLACK_CHANNEL, color: '#00FF00', message: "SUCCESSFUL: ${env.JOB}-${env.BRANCH_NAME} [${env.BUILD_NUMBER}]\n AUTHOR: ${env.AUTHOR}  \n Build URL: - ${env.BUILD_URL} " )
-            }
-            failure {
-                slackSend (channel: env.SLACK_CHANNEL, color: '#FF0000', message: "FAILED: Job  ${env.JOB}-${env.BRANCH_NAME} [${env.BUILD_NUMBER}]\n AUTHOR: ${env.AUTHOR} \n Build URL: (${env.BUILD_URL})")
-            }
     }
 }
