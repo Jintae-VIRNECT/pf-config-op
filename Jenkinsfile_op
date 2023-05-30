@@ -43,9 +43,6 @@ pipeline {
                     sh 'docker rmi ${BRANCH}:latest'
                 }
             }
-            post {
-
-            }
         }
 
         stage('default build'){
